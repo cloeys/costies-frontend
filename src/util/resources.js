@@ -3,7 +3,14 @@ import axios from 'axios';
 import { API_BASE } from 'src/config/constants';
 
 // Resources for /posts endpoint on API
-// @see https://github.com/mzabriskie/axios#creating-an-instance
-export const postsResource = axios.create({
-  baseURL: `${API_BASE}/posts/`
+export const costsResource = axios.create({
+  baseURL: `${API_BASE}/costs`
+});
+
+export const loginResource = axios.create({
+  baseURL: `${API_BASE}/auth/login`
+});
+
+export const usersResource = axios.create({
+  baseURL: `${API_BASE}/users`
 });

@@ -1,0 +1,23 @@
+<div v-show="costs.length" class="mb-4">
+  <h1 class="mb-4"><i class="fa fa-file-text-o"></i> Costs</h1>
+
+  <div class="form-group">
+    <input class="form-control" placeholder="Filter costs..." v-model="costsFilter">
+  </div>
+
+  <transition-group
+    tag="div"
+    class="list-group"
+    :css="false"
+    @before-enter="handleBeforeEnter"
+    @enter="handleEnter">
+    <router-link v-if="filteredCosts.length"
+                 class="list-group-item"
+                 v-for="(cost, index) in filteredCosts"
+                 :key="index"
+                 :data-index="index"
+                 :to="{ name: 'cost', params: { id: cost.id }}">
+      #{{ index+1 }} {{ cost.title }}
+    </router-link>
+  </transition-group>
+</div>

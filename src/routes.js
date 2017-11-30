@@ -1,9 +1,11 @@
 import Home from 'components/Home/home';
-import Posts from 'components/Posts/posts';
-import Post from 'components/Posts/post';
-import CreatePost from 'components/Posts/createPost';
-import EditPost from 'components/Posts/editPost';
+import Costs from 'components/Costs/costs';
+import Cost from 'components/Costs/cost';
+import CreateCost from 'components/Costs/createCost';
+import EditCost from 'components/Costs/editCost';
 import NotFound from 'components/NotFound/notFound';
+import Login from 'components/Authentication/login';
+import store from './store/index'
 
 const routes = [
   {
@@ -11,23 +13,68 @@ const routes = [
     component: Home
   },
   {
-    path: '/posts',
-    component: Posts
+    path: '/costs',
+    component: Costs,
+    beforeEnter: (to, from, next) => {
+      if(!store.getters.isLoggedIn) {
+        store.dispatch('setMessage', 'Not authenticated, login first');
+        next('/login');
+      } else {
+        next();
+      }
+    }
   },
   {
-    path: '/posts/create',
-    name: 'createPost',
-    component: CreatePost
+    path: '/costs/create',
+    name: 'createCost',
+    component: CreateCost,
+    beforeEnter: (to, from, next) => {
+      if(!store.getters.isLoggedIn) {
+        store.dispatch('setMessage', 'Not authenticated, login first');
+        next('/login');
+      } else {
+        next();
+      }
+    }
   },
   {
-    path: '/post/:id',
-    name: 'post',
-    component: Post
+    path: '/cost/:id',
+    name: 'cost',
+    component: Cost,
+    beforeEnter: (to, from, next) => {
+      if(!store.getters.isLoggedIn) {
+        store.dispatch('setMessage', 'Not authenticated, login first');
+        next('/login');
+      } else {
+        next();
+      }
+    }
   },
   {
-    path: '/post/:id/edit',
-    name: 'editPost',
-    component: EditPost
+    path: '/cost/:id/edit',
+    name: 'editCost',
+    component: EditCost,
+    beforeEnter: (to, from, next) => {
+      if(!store.getters.isLoggedIn) {
+        store.dispatch('setMessage', 'Not authenticated, login first');
+        next('/login');
+      } else {
+        next();
+      }
+    }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      if(store.getters.isLoggedIn) {
+        store.dispatch('setMessage', 'Already logged in');
+        next(from);
+      } else {
+        next();
+      }
+    }
   },
   {
     path: '*',

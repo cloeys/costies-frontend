@@ -21,6 +21,10 @@ const isProduction = !!((argv.env && argv.env.production) || argv.p);
  * @type {*[]}
  */
 const commonPlugins = [
+  new webpack.ProvidePlugin({
+    $: "jquery",
+    jQuery: "jquery"
+  }),
   new HtmlWebpackPlugin({
     inject: 'body',
     template: path.resolve(__dirname, '../src/index.html'),
@@ -29,7 +33,9 @@ const commonPlugins = [
   new webpack.LoaderOptionsPlugin({
     minimize: isProduction,
     debug: !isProduction,
-    stats: {colors: true},
+    stats: {
+      colors: true
+    },
     eslint: {
       configFile: path.resolve(__dirname, '../.eslintrc'),
       failOnWarning: false,
@@ -74,18 +80,16 @@ const developPlugins = [
     title: pkg.name,
     contentImage: path.join(__dirname, '../src/assets/images/logo.png')
   }),
-  new BrowserSyncPlugin(
-    {
-      host: 'localhost',
-      port: pkg.config.port,
-      // Proxy the default webpack dev-server port
-      proxy: 'http://localhost:8080/',
-      notify: false,
-      open: false,
-      // Let webpack handle the reload
-      codeSync: false
-    }
-  ),
+  new BrowserSyncPlugin({
+    host: 'localhost',
+    port: pkg.config.port,
+    // Proxy the default webpack dev-server port
+    proxy: 'http://localhost:8080/',
+    notify: false,
+    open: false,
+    // Let webpack handle the reload
+    codeSync: false
+  }),
   new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.NoEmitOnErrorsPlugin()
 ];
@@ -121,14 +125,16 @@ const productionPLugins = [
     prefix: 'assets/img/icons/',
     statsFilename: 'iconstats-[hash].json',
     icons: {
-      android: true,              // Create Android homescreen icon. `boolean`
-      appleIcon: true,            // Create Apple touch icons. `boolean` or `{ offset: offsetInPercentage }`
-      appleStartup: false,        // Create Apple startup images. `boolean`
-      coast: {offset: 25},      // Create Opera Coast icon with offset 25%. `boolean` or `{ offset: offsetInPercentage }`
-      favicons: true,             // Create regular favicons. `boolean`
-      firefox: true,              // Create Firefox OS icons. `boolean` or `{ offset: offsetInPercentage }`
-      windows: true,              // Create Windows 8 tile icons. `boolean`
-      yandex: true                // Create Yandex browser icon. `boolean`
+      android: true, // Create Android homescreen icon. `boolean`
+      appleIcon: true, // Create Apple touch icons. `boolean` or `{ offset: offsetInPercentage }`
+      appleStartup: false, // Create Apple startup images. `boolean`
+      coast: {
+        offset: 25
+      }, // Create Opera Coast icon with offset 25%. `boolean` or `{ offset: offsetInPercentage }`
+      favicons: true, // Create regular favicons. `boolean`
+      firefox: true, // Create Firefox OS icons. `boolean` or `{ offset: offsetInPercentage }`
+      windows: true, // Create Windows 8 tile icons. `boolean`
+      yandex: true // Create Yandex browser icon. `boolean`
     }
   })
 ];

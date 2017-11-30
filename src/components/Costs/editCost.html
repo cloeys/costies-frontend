@@ -1,0 +1,85 @@
+<transition name="cost-appear-animation" enter-active-class="animated flipInX">
+  <div>
+    <header v-if="cost.title">
+      <h1 class="card-title">{{ cost.title }}</h1>
+      <hr>
+    </header>
+    <form name="editCostForm" class="card card-block" @submit.prevent="handleSubmit" v-if="cost">
+
+      <transition name="cost-message-animation" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
+        <div v-if="message">
+          <div class="alert" :class="{'alert-success': message.type === 'success'}" role="alert">
+            {{message.text}}
+          </div>
+        </div>
+      </transition>
+
+      <transition name="error-animation" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
+        <div v-if="errors.any()" v-for="error in errors.errors" class="alert alert-danger" role="alert">
+          <strong>Doh!</strong> {{error.msg}}
+        </div>
+      </transition>
+
+      <div class="form-group row" :class="{'has-danger': errors.has('title') }">
+        <label for="title" class="col-2 col-form-label">Title</label>
+        <div class="col-10">
+          <input id="title" name="title" type="text" class="form-control" data-vv-rules="required" data-vv-as="Cost title" v-model="cost.title"
+            v-validate>
+        </div>
+      </div>
+
+      <div class="form-group row" :class="{'has-danger': errors.has('description') }">
+        <label for="body" class="col-2 col-form-label">Description</label>
+        <div class="col-10">
+          <textarea id="body" name="body" rows="5" class="form-control" data-vv-rules="required" data-vv-as="Cost description" v-model="cost.description"
+            v-validate></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row" :class="{'has-danger': errors.has('code') }">
+        <label for="code" class="col-2 col-form-label">Code</label>
+        <div class="col-10">
+          <input id="code" name="code" type="text" class="form-control" data-vv-rules="required" data-vv-as="Cost code" v-model="cost.code"
+            v-validate>
+        </div>
+      </div>
+
+      <div class="form-group row" :class="{'has-danger': errors.has('amount') }">
+        <label for="amount" class="col-2 col-form-label">Amount</label>
+        <div class="col-10">
+          <input id="amount" name="amount" type="number" class="form-control" data-vv-rules="required" data-vv-as="Cost amount" v-model="cost.amount"
+            v-validate>
+        </div>
+      </div>
+
+      <div class="form-group row" :class="{'has-danger': errors.has('received_date') }">
+        <label for="received_date" class="col-2 col-form-label">Date received</label>
+        <div class="col-10">
+          <input id="received_date" name="received_date" type="date" class="form-control" data-vv-as="Received date" v-model="cost.received_date"
+            v-validate>
+        </div>
+      </div>
+
+      <div class="form-group row" :class="{'has-danger': errors.has('due_date') }">
+        <label for="due_date" class="col-2 col-form-label">Date due</label>
+        <div class="col-10">
+          <input id="due_date" name="due_date" type="date" class="form-control" data-vv-as="Due date" v-model="cost.due_date" v-validate>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-2"></div>
+        <div class="col-10">
+          <button type="submit" class="btn btn-primary" :disabled="errors.any() || !isDirty">
+            <i class="fa fa-floppy-o"></i> Save
+          </button>
+        </div>
+      </div>
+
+    </form>
+    <hr>
+    <router-link to="/costs">
+      <i class="fa fa-chevron-left"></i> Back to costs
+    </router-link>
+  </div>
+</transition>

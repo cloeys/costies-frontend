@@ -1,17 +1,20 @@
 import Vue from 'vue';
 import VeeValidate from 'vee-validate';
+import MessageMixin from '../mixins/MessageMixin';
 
 Vue.use(VeeValidate);
 
-import { postsResource } from 'src/util/resources';
-import template from './editPost.html';
+import {
+  costsResource
+} from 'src/util/resources';
+import template from './editCost.html';
 
 export default Vue.extend({
   template,
-
+  mixins: [MessageMixin],
   data() {
     return {
-      post: {},
+      cost: {},
       message: null,
       id: this.$route.params.id,
     };
@@ -23,36 +26,40 @@ export default Vue.extend({
     }
   },
 
-  created(){
-    this.fetchPost();
+  created() {
+    this.fetchCost();
   },
 
   methods: {
-    handleSubmit(){
+    handleSubmit() {
       this.$validator.validateAll().then((success) => {
         if (success) {
-          return this.savePost();
+          return this.saveCost();
         }
 
         return this;
       });
     },
 
-    showMessage(message = {}, timeout = 2000){
+    showMessage(message = {}, timeout = 2000) {
       this.message = message;
       setTimeout(() => {
         this.message = null;
       }, timeout);
     },
 
-    savePost(){
-      return postsResource.put(`${this.id}`, this.post)
+    saveCost() {
+      return costsResource.put(`${this.id}`, this.cost, {
+          headers: {
+            'Authorization': this.$store.getters.token
+          }
+        })
         .then((response) => {
-          this.post = response.data;
+          this.cost = response.data;
 
           this.showMessage({
             type: 'success',
-            text: 'Post updated!'
+            text: 'Cost updated!'
           });
 
           // TODO: We need to reset the form after success....
@@ -68,10 +75,14 @@ export default Vue.extend({
         });
     },
 
-    fetchPost(){
-      return postsResource.get(`${this.id}`)
+    fetchCost() {
+      return costsResource.get(`${this.id}`, {
+          headers: {
+            'Authorization': this.$store.getters.token
+          }
+        })
         .then((response) => {
-          this.post = response.data;
+          this.cost = response.data;
         })
         .catch((errorResponse) => {
           // Handle error...

@@ -1,0 +1,5 @@
+<form @submit.prevent="handleSubmit">
+  <input type="text" placeholder="email" v-model="credentials.email" data-vv-rules="required">
+  <input type="password" placeholder="password" v-model="credentials.password" data-vv-rules="required">
+  <button type="submit">Login</button>
+</form>

@@ -1,17 +1,20 @@
 import Vue from 'vue';
 import VeeValidate from 'vee-validate';
+import MessageMixin from '../mixins/MessageMixin';
 
 Vue.use(VeeValidate);
 
-import { postsResource } from 'src/util/resources';
-import template from './editPost.html';
+import {
+  costsResource
+} from 'src/util/resources';
+import template from './editCost.html';
 
 export default Vue.extend({
   template,
-
+  mixins: [MessageMixin],
   data() {
     return {
-      post: {},
+      cost: {},
       message: null
     };
   },
@@ -23,31 +26,35 @@ export default Vue.extend({
   },
 
   methods: {
-    handleSubmit(){
+    handleSubmit() {
       this.$validator.validateAll().then((success) => {
         if (success) {
-          return this.savePost();
+          return this.saveCost();
         }
 
         return this;
       });
     },
 
-    showMessage(message = {}, timeout = 2000){
+    showMessage(message = {}, timeout = 2000) {
       this.message = message;
       setTimeout(() => {
         this.message = null;
       }, timeout);
     },
 
-    savePost(){
-      return postsResource.post('/', this.post)
+    saveCost() {
+      return costsResource.post('/', this.cost, {
+          headers: {
+            'Authorization': this.$store.getters.token
+          }
+        })
         .then((response) => {
-          this.post = response.data;
+          this.cost = response.data;
 
           this.showMessage({
             type: 'success',
-            text: 'Post created!'
+            text: 'Cost created!'
           });
 
           // TODO: We need to reset the form after success....

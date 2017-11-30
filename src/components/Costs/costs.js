@@ -1,36 +1,43 @@
 import Vue from 'vue';
 
-import { postsResource } from 'src/util/resources';
-import template from './posts.html';
+import {
+  costsResource
+} from 'src/util/resources';
+import template from './costs.html';
+import MessageMixin from '../mixins/MessageMixin';
 
 const animation = 'flipInX';
 const animationDelay = 25; // in ms
 
 export default Vue.extend({
   template,
-
+  mixins: [MessageMixin],
   data() {
     return {
-      postsFilter: '',
-      posts: []
+      costsFilter: '',
+      costs: []
     };
   },
 
   computed: {
-    filteredPosts() {
-      return this.posts.filter((post) => post.title.toLowerCase().indexOf(this.postsFilter.toLowerCase()) !== -1);
+    filteredCosts() {
+      return this.costs.filter((cost) => cost.title.toLowerCase().indexOf(this.costsFilter.toLowerCase()) !== -1);
     }
   },
 
-  created(){
-    this.fetchPosts();
+  created() {
+    this.fetchCosts();
   },
 
   methods: {
-    fetchPosts(){
-      return postsResource.get('/')
+    fetchCosts() {
+      return costsResource.get('', {
+          headers: {
+            'Authorization': this.$store.getters.token
+          }
+        })
         .then((response) => {
-          this.posts = response.data;
+          this.costs = response.data;
         })
         .catch((errorResponse) => {
           // Handle error...

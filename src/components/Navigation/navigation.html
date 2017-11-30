@@ -1,16 +1,38 @@
 <nav class="navbar fixed-top navbar-toggleable-sm navbar-inverse bg-inverse">
-    <router-link class="navbar-brand" to="/">
-      <img alt="Brand" src="~assets/images/logo.png" height="20">
-    </router-link>
-  <ul class="navbar-nav">
+  <router-link class="navbar-brand" to="/">
+    <img alt="Brand" src="~assets/images/logo.png" height="20">
+  </router-link>
+  <ul class="navbar-nav mr-auto">
     <router-link class="nav-item" tag="li" to="/" exact>
-      <a class="nav-link"><i class="fa fa-home"></i> Home</a>
+      <a class="nav-link">
+        <i class="fa fa-home"></i> Home</a>
     </router-link>
-    <router-link class="nav-item" tag="li" to="/posts" exact>
-      <a class="nav-link"><i class="fa fa-file-text-o"></i> Posts</a>
-    </router-link>
-    <router-link class="nav-item" tag="li" to="/posts/create" exact>
-      <a class="nav-link"><i class="fa fa-pencil"></i> Create post</a>
+    <template v-if="isLoggedIn">
+      <router-link class="nav-item" tag="li" to="/costs" exact>
+        <a class="nav-link">
+          <i class="fa fa-file-text-o"></i> Costs</a>
+      </router-link>
+      <router-link class="nav-item" tag="li" to="/costs/create" exact>
+        <a class="nav-link">
+          <i class="fa fa-pencil"></i> Create cost</a>
+      </router-link>
+    </template>
+  </ul>
+  <ul class="navbar-nav">
+    <template v-if="isLoggedIn">
+      <li class="nav-item ">
+        <span class="navbar-text welcome-text">
+          Welcome, {{name}}
+        </span>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link" @click="logout" v-if="isLoggedIn">
+          <i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
+      </li>
+    </template>
+    <router-link class="nav-item" tag="li" to="/login" v-if="!isLoggedIn" exact>
+      <a class="nav-link">
+        <i class="fa fa-sign-in" aria-hidden="true"></i>Login</a>
     </router-link>
   </ul>
 </nav>

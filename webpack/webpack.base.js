@@ -34,6 +34,16 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.less$/,
+        use: [{
+          loader: "style-loader" // creates style nodes from JS strings
+        }, {
+          loader: "css-loader" // translates CSS into CommonJS
+        }, {
+          loader: "less-loader" // compiles Less to CSS
+        }]
+      },
+      {
         enforce: 'pre',
         exclude: /node_modules/,
         loader: 'eslint-loader',
@@ -63,8 +73,7 @@ module.exports = {
         test: /\.css$/,
         loader: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [
-            {
+          use: [{
               loader: 'cache-loader'
             },
             {
@@ -72,7 +81,8 @@ module.exports = {
               options: {
                 sourceMap: !isProduction
               }
-            }],
+            }
+          ],
         })),
       },
       {
@@ -80,8 +90,7 @@ module.exports = {
         include: path.resolve(__dirname, '../src'),
         loader: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [
-            {
+          use: [{
               loader: 'css-loader',
               options: {
                 sourceMap: !isProduction
