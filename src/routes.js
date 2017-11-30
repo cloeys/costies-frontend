@@ -70,7 +70,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if(store.getters.isLoggedIn) {
         store.dispatch('setMessage', 'Already logged in');
-        next(from);
+        from();
       } else {
         next();
       }

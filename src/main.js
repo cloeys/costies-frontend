@@ -42,7 +42,6 @@ new Vue({
       this.isLoading = isLoading;
     });
     let token = localStorage.getItem('token');
-    console.log(token)
     if (token !== null) {
       store.dispatch('fetchUser', token);
       

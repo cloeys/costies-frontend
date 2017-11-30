@@ -44,7 +44,6 @@ export default Vue.extend({
   },
 
   mounted() {
-    console.log(this.isLoggedIn);
     if (this.isLoggedIn) {
       this.$store.dispatch('setMessage', 'Not authenticated, login first');
       this.$router.push("/");

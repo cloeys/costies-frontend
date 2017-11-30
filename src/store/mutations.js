@@ -3,8 +3,6 @@ export const LOGIN = (state) => {
 }
 
 export const LOGIN_SUCCESS = (state, payload) => {
-  console.log(payload.token);
-  console.log(payload.user);
   state.token = payload.token;
   state.currentUser = payload.user;
   state.isLoggedIn = true;
