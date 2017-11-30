@@ -21,7 +21,8 @@
   "scripts": {
     "start": "webpack-dashboard -c magenta -t 'Vue.js-Starter-Template' -- webpack-dev-server --config webpack/development.js --progress --hot",
     "build": "webpack --config webpack/production.js -p --progress",
-    "lint:js": "eslint src"
+    "lint:js": "eslint src",
+    "heroku-postbuild": "webpack -p --config ./webpack/webpack.base.js --progress"
   },
   "dependencies": {
     "@vuejs-pt/vue-alert": "^1.2.2",
